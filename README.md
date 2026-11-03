@@ -1,11 +1,11 @@
-# Aurore ID
+# Eneles ID
 
-Le portail d’entrée de l’écosystème Aurore.
+Le portail d’entrée de l’écosystème Eneles.
 
 ## Première version
 
 - Page d’accueil responsive en HTML, CSS et JavaScript natifs, sans dépendances ni build.
-- Accès directs vers Aurore — Section Archives, Aurore Instituts, Aurore Mémoire et Aurore Animation.
+- Accès directs vers Eneles — Section Archives, Eneles Instituts, Eneles Mémoire et Eneles Animation.
 - Interface adaptée aux mobiles, navigation clavier, prise en compte de la préférence de réduction des animations.
 - En-têtes HTTP de sécurité configurés pour Vercel.
 - La connexion centralisée est volontairement inactive dans cette version. Le bouton explique son état au lieu d’afficher une fausse connexion.
