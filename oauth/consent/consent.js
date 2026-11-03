@@ -6,7 +6,7 @@
   const CANONICAL_ORIGIN = "https://aurore-id.vercel.app";
   const AUTHORIZATION_STORAGE_KEY = "aurore-id.oauth.authorization_id.v1";
 
-  // Keep these exact callback URLs synchronized with the registered Aurore OAuth apps.
+  // Keep these exact callback URLs synchronized with the registered Eneles OAuth apps.
   // Match against exact registered URIs before displaying consent or redirecting.
   const ALLOWED_CALLBACKS = [
     "https://tdeotqfsbvouresfhkab.supabase.co/auth/v1/callback",
@@ -129,7 +129,7 @@
     $("recovery-request").style.display = "none";
     $("update-password-panel").style.display = "block";
     $("recovery-title").textContent = "Choisir un nouveau mot de passe";
-    $("recovery-copy").textContent = "Choisissez un mot de passe d’au moins 8 caractères pour retrouver l’accès à votre compte Aurore ID.";
+    $("recovery-copy").textContent = "Choisissez un mot de passe d’au moins 8 caractères pour retrouver l’accès à votre compte Eneles ID.";
     clearNotice();
   }
 
@@ -168,10 +168,10 @@
     if (!redirectUri) throw new Error("La demande provient d’une adresse de retour non enregistrée. Elle a été bloquée.");
 
     authorizationDetails = details;
-    $("client-name").textContent = String(details.client && details.client.name || "Service Aurore");
+    $("client-name").textContent = String(details.client && details.client.name || "Service Eneles");
     $("redirect-uri").textContent = redirectUri;
-    $("login-email").textContent = String(user.email || "compte Aurore connecté");
-    $("consent-email").textContent = String(user.email || "compte Aurore connecté");
+    $("login-email").textContent = String(user.email || "compte Eneles connecté");
+    $("consent-email").textContent = String(user.email || "compte Eneles connecté");
     $("login-identity").style.display = "flex";
     $("consent-identity").style.display = "flex";
 
@@ -241,7 +241,7 @@
 
   async function initialize() {
     if (window.location.origin !== CANONICAL_ORIGIN) {
-      throw new Error("Pour une connexion sûre, ouvrez Aurore ID à son adresse officielle : " + CANONICAL_ORIGIN);
+      throw new Error("Pour une connexion sûre, ouvrez Eneles ID à son adresse officielle : " + CANONICAL_ORIGIN);
     }
 
     authorizationId = loadAuthorizationId();
@@ -249,7 +249,7 @@
     const initialQuery = new URLSearchParams(window.location.search);
     const recoveryCallback = initialFragment.get("type") === "recovery" || initialQuery.get("type") === "recovery";
     if ((!authorizationId || authorizationId.length > 2048) && !recoveryCallback) {
-      throw new Error("Aucune demande de connexion valide n’a été trouvée. Revenez au service Aurore que vous souhaitez ouvrir.");
+      throw new Error("Aucune demande de connexion valide n’a été trouvée. Revenez au service Eneles que vous souhaitez ouvrir.");
     }
 
     await loadSupabaseSdk();
@@ -291,7 +291,7 @@
     }
 
     if (!authorizationId || authorizationId.length > 2048) {
-      throw new Error("Aucune demande de connexion valide n’a été trouvée. Revenez au service Aurore que vous souhaitez ouvrir.");
+      throw new Error("Aucune demande de connexion valide n’a été trouvée. Revenez au service Eneles que vous souhaitez ouvrir.");
     }
 
     // Security: an existing persisted session is not proof of fresh
@@ -334,8 +334,8 @@
         throw new Error("Le compte a été reconnu, mais la session n’a pas pu être vérifiée. Recommencez la connexion.");
       }
       // Give the user an explicit, visible confirmation before the OAuth flow
-      // continues or redirects back to the requesting Aurore service.
-      setNotice("Connexion réussie. Votre identité Aurore ID est vérifiée ; ouverture du service…", true);
+      // continues or redirects back to the requesting Eneles service.
+      setNotice("Connexion réussie. Votre identité Eneles ID est vérifiée ; ouverture du service…", true);
       await new Promise(function (resolve) { setTimeout(resolve, 900); });
       await continueAuthenticatedUser(user);
     } catch (error) {
@@ -349,12 +349,12 @@
     if (busy) return;
     authMode = authMode === "signin" ? "signup" : "signin";
     const creating = authMode === "signup";
-    $("login-title").textContent = creating ? "Créer votre compte Aurore ID" : "Connectez-vous à Aurore ID";
+    $("login-title").textContent = creating ? "Créer votre compte Eneles ID" : "Connectez-vous à Eneles ID";
     $("login-copy").textContent = creating
       ? "Créez un compte avec une adresse e-mail que vous pouvez consulter et un mot de passe d’au moins 8 caractères."
-      : "Utilisez votre adresse e-mail et votre mot de passe Aurore ID. Votre autorisation pour chaque service reste distincte.";
+      : "Utilisez votre adresse e-mail et votre mot de passe Eneles ID. Votre autorisation pour chaque service reste distincte.";
     loginButton.textContent = creating ? "Créer mon compte" : "Se connecter";
-    modeToggle.textContent = creating ? "J’ai déjà un compte" : "Créer un compte Aurore ID";
+    modeToggle.textContent = creating ? "J’ai déjà un compte" : "Créer un compte Eneles ID";
     $("login-password").autocomplete = creating ? "new-password" : "current-password";
     $("login-password").minLength = creating ? 8 : 1;
     $("login-password").value = "";
@@ -372,7 +372,7 @@
     setBusy(true);
     try {
       const result = await client.auth.resetPasswordForEmail(email, {
-        // A password reset can start from the Aurore ID home page (without an
+        // A password reset can start from the Eneles ID home page (without an
         // OAuth authorization_id) or from a service-specific consent request.
         redirectTo: authorizationId ? consentUrl(authorizationId) : CANONICAL_ORIGIN + "/oauth/consent/"
       });
@@ -414,7 +414,7 @@
       passwordRecoveryMode = false;
       $("login-password").value = "";
       showLogin();
-      setNotice("Mot de passe mis à jour. Vous pouvez maintenant vous connecter à Aurore ID.", true);
+      setNotice("Mot de passe mis à jour. Vous pouvez maintenant vous connecter à Eneles ID.", true);
     } catch (error) {
       const raw = String(error && (error.message || error.code) || "").toLowerCase();
       if (raw.includes("session missing") || raw.includes("session_not_found") || raw.includes("jwt expired") || raw.includes("invalid refresh token") || raw.includes("refresh token not found")) {
@@ -468,6 +468,6 @@
   initialize().catch(function (error) {
     loginSection.style.display = "none";
     consentSection.style.display = "none";
-    setNotice(error && error.message ? error.message : "Aurore ID n’a pas pu traiter cette demande.");
+    setNotice(error && error.message ? error.message : "Eneles ID n’a pas pu traiter cette demande.");
   });
 })();

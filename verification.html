@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101729">
-<meta name="description" content="Vérifiez le statut d’un identifiant de certification Aurore dans le registre central.">
-<title>Vérifier un certificat — Aurore ID</title>
+<meta name="description" content="Vérifiez le statut d’un identifiant de certification Eneles dans le registre central.">
+<title>Vérifier un certificat — Eneles ID</title>
 <style>
 :root{color-scheme:light;--ink:#172033;--muted:#697387;--paper:#f7f8fc;--navy:#101729;--line:rgba(23,32,51,.11);--mint:#dff7c8;--lilac:#c9bdff}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 85% 0%,#e6e2ff 0,transparent 38%),var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
@@ -16,20 +16,20 @@ main{padding:clamp(38px,8vw,82px) 0 70px}.eyebrow{display:inline-flex;align-item
 </style>
 </head>
 <body>
-<header class="wrap top"><a class="brand" href="/"><span class="mark" aria-hidden="true">a.</span><span>Aurore ID</span></a><a class="back" href="/">Retour à Aurore ID ↗</a></header>
+<header class="wrap top"><a class="brand" href="/"><span class="mark" aria-hidden="true">a.</span><span>Eneles ID</span></a><a class="back" href="/">Retour à Eneles ID ↗</a></header>
 <main class="wrap">
-<div class="eyebrow"><span class="dot"></span> Registre Aurore · consultation publique</div>
+<div class="eyebrow"><span class="dot"></span> Registre Eneles · consultation publique</div>
 <h1>Vérifier une certification.</h1>
-<p class="intro">Saisissez le numéro figurant sur une carte ou un document Aurore. Le registre indique ce qui est enregistré et le statut actuel — sans confondre un identifiant avec une certification validée.</p>
+<p class="intro">Saisissez le numéro figurant sur une carte ou un document Eneles. Le registre indique ce qui est enregistré et le statut actuel — sans confondre un identifiant avec une certification validée.</p>
 <section class="panel" aria-labelledby="verify-label">
-<label class="field-label" id="verify-label" for="certificate-code">Numéro du certificat Aurore</label>
+<label class="field-label" id="verify-label" for="certificate-code">Numéro du certificat Eneles</label>
 <form id="verify-form" class="searchrow"><input id="certificate-code" name="code" type="text" inputmode="text" autocomplete="off" maxlength="48" placeholder="Ex. : AUR-MEM-76804B37BAEC46AE" required><button id="verify-button" type="submit">Vérifier le numéro</button></form>
 <p class="hint">Les numéros sont insensibles aux minuscules/majuscules et aux espaces. Aucun mot de passe n’est demandé.</p>
 <div class="result" id="verify-result" role="status" aria-live="polite"></div>
 </section>
-<p class="fineprint">Un résultat « identifiant enregistré » confirme uniquement la présence de la référence dans le registre. « Provenance vérifiée » et « Certifié Aurore » sont des statuts distincts. La certification ne garantit pas à elle seule l’exactitude scientifique ou l’absence de litige sur les droits.</p>
+<p class="fineprint">Un résultat « identifiant enregistré » confirme uniquement la présence de la référence dans le registre. « Provenance vérifiée » et « Certifié Eneles » sont des statuts distincts. La certification ne garantit pas à elle seule l’exactitude scientifique ou l’absence de litige sur les droits.</p>
 </main>
-<footer class="footer"><div class="wrap footerinner"><span>© <span id="year"></span> Aurore · Registre de provenance</span><span>Une référence, un historique, un statut explicite.</span></div></footer>
+<footer class="footer"><div class="wrap footerinner"><span>© <span id="year"></span> Eneles · Registre de provenance</span><span>Une référence, un historique, un statut explicite.</span></div></footer>
 <script>
 (function(){
   const endpoint='https://woyzakzpqtzwjiyysuum.supabase.co/functions/v1/aurore-certificate-verify';
@@ -41,19 +41,19 @@ main{padding:clamp(38px,8vw,82px) 0 70px}.eyebrow{display:inline-flex;align-item
   function render(data,code){
     result.replaceChildren();
     if(!data.found){showMessage('Aucun certificat ne correspond à '+code+'. Vérifiez la saisie ou le lien d’origine.',false);return}
-    const c=data.certificate||{},record=node('article','record'),head=node('div','record-head'),seal=node('div','seal','✓'),copy=node('div',''),title=node('h2','',c.certificate_code||code),sub=node('p','',c.resource_title||c.series_name||'Ressource Aurore');
+    const c=data.certificate||{},record=node('article','record'),head=node('div','record-head'),seal=node('div','seal','✓'),copy=node('div',''),title=node('h2','',c.certificate_code||code),sub=node('p','',c.resource_title||c.series_name||'Ressource Eneles');
     copy.append(title,sub,node('span','status '+(['certified','provenance_verified'].includes(c.status)?'verified':(['revoked','withdrawn'].includes(c.status)?c.status:'')),data.statusLabel||c.status||'Statut inconnu'));
     head.append(seal,copy);record.append(head);
     const details=node('div','details');
-    addItem(details,'Service Aurore',c.service_code);addItem(details,'Type de ressource',c.resource_type);addItem(details,'Auteur déclaré',c.author_name);addItem(details,'Domaine',c.domain);addItem(details,'Version enregistrée',c.resource_version);addItem(details,'Date d’enregistrement',c.issued_at?new Date(c.issued_at).toLocaleDateString('fr-FR'):'Non renseignée');addItem(details,'Dernière vérification',c.verified_at?new Date(c.verified_at).toLocaleDateString('fr-FR'):'Aucune vérification enregistrée');addItem(details,'Empreinte de contenu (partielle)',c.fingerprint||'Pas encore calculée');
+    addItem(details,'Service Eneles',c.service_code);addItem(details,'Type de ressource',c.resource_type);addItem(details,'Auteur déclaré',c.author_name);addItem(details,'Domaine',c.domain);addItem(details,'Version enregistrée',c.resource_version);addItem(details,'Date d’enregistrement',c.issued_at?new Date(c.issued_at).toLocaleDateString('fr-FR'):'Non renseignée');addItem(details,'Dernière vérification',c.verified_at?new Date(c.verified_at).toLocaleDateString('fr-FR'):'Aucune vérification enregistrée');addItem(details,'Empreinte de contenu (partielle)',c.fingerprint||'Pas encore calculée');
     record.append(details);
-    const note=node('p','fineprint',data.valid?'Ce statut est renvoyé par le registre central Aurore.':'Cette référence est enregistrée, mais elle ne dispose pas actuellement d’un statut de vérification/certification positif.');
+    const note=node('p','fineprint',data.valid?'Ce statut est renvoyé par le registre central Eneles.':'Cette référence est enregistrée, mais elle ne dispose pas actuellement d’un statut de vérification/certification positif.');
     result.append(record,note);
   }
   async function verify(code,updateUrl){
     code=String(code||'').trim().toUpperCase().replace(/\s+/g,'');
     if(!code){showMessage('Saisissez un numéro de certificat pour commencer.',true);return}
-    button.disabled=true;button.textContent='Vérification…';showMessage('Interrogation du registre Aurore…',false);
+    button.disabled=true;button.textContent='Vérification…';showMessage('Interrogation du registre Eneles…',false);
     try{
       const response=await fetch(endpoint+'?code='+encodeURIComponent(code),{headers:{'Accept':'application/json'},cache:'no-store'});
       const data=await response.json();
